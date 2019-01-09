@@ -14,7 +14,7 @@ var connection = mysql.createConnection({
   port: 3306,
 
   // Your username
-  user: "alexisbellinger",
+  user: "root",
 
   // Your password
   password: "DNB63088",
@@ -26,22 +26,20 @@ connection.connect(function(err) {
   if (err) throw err;
   // run the start function after the connection is made to prompt the user
   print()
-  start();
+  //start();
 });
 
 //Function to print out products
 
 function print() {
-  console.table([
-    {
-      name: 'foo',
-      age: 10
-    }, {
-      name: 'bar',
-      age: 20
-    }
-  ]);
+  connection.query("SELECT * FROM products", function(err, result, fields) {
+  if (err) throw err;
+  //console.log(result);
+  console.table(result);
+  
+  })
 }
+
 
 
 // // function which prompts the user for what action they should take
