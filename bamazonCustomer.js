@@ -62,6 +62,8 @@ connection.connect(function(err) {
          console.log("Insufficient Quantity");
        } else {
          console.log("Yay boy");
+         var total = chosenAmount * result[chosenId].price;
+         console.log("Your total is: $" + total);
        }
      //   var chosenItem;
 
