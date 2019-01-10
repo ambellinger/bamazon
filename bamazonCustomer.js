@@ -60,10 +60,31 @@ connection.connect(function(err) {
 
        if (chosenAmount > result[chosenId].stock_quantity) {
          console.log("Insufficient Quantity");
+         start();
        } else {
          console.log("Yay boy");
          var total = chosenAmount * result[chosenId].price;
          console.log("Your total is: $" + total);
+         console.log("The old stock is: " +  result[chosenId].stock_quantity)
+         var newStock = result[chosenId].stock_quantity - chosenAmount;
+         console.log("Your new stock is:" + newStock)
+
+        connection.query(
+            "UPDATE products SET ? WHERE ?",
+            [
+              {
+               stock_quantity: newStock
+              },
+              {
+                item_id: chosenId
+              },
+            ],
+            function(error) {
+              if (error) throw err;
+              console.log("Stock quantity changed");
+              start();
+            }
+          )
        }
      //   var chosenItem;
 
