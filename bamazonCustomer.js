@@ -77,7 +77,7 @@ connection.connect(function(err) {
               },
               {
                 item_id: chosenId
-              },
+              }
             ],
             function(error) {
               if (error) throw err;
