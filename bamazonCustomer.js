@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
- 
+
 // call once somewhere in the beginning of the app
 //https://www.npmjs.com/package/console.table
 const cTable = require('console.table');
@@ -22,18 +22,17 @@ var connection = mysql.createConnection({
 });
 
 // connect to the mysql server and sql database
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) throw err;
   // run the start function after the connection is made to prompt the user
- start();
+  start();
 });
 
-//Function to print out products
 
- // function which prompts the user for what action they should take
- function start() {
+// function which prompts the user for what action they should take
+function start() {
 
-  connection.query("SELECT * FROM products", function(err, result, fields) {
+  connection.query("SELECT * FROM products", function (err, result, fields) {
     if (err) throw err;
     //console.log(result);
     console.table(result);
@@ -51,66 +50,55 @@ connection.connect(function(err) {
           message: "How many would you like? [Quit with Q]"
         }
       ])
-      .then(function(answer) {
+      .then(function (answer) {
+
         //For loop
         for (var i = 0; i < result.length; i++) {
           if (result[i].item_id === parseInt(answer.choice)) {
-              chosenProduct = result[i];
-              console.log("This is the result:" + chosenProduct);
+            chosenProduct = result[i];
+            console.log("This is the result:" + chosenProduct);
           }
-      };
+        };
 
-      console.log("BAR" + chosenProduct.product_name);
+        console.log("NAME" + chosenProduct.product_name);
 
         var chosenId = answer.choice;
-       // console.log("you chose item:" + chosenId);
-       var chosenAmount = answer.quantity;
-       console.log("the chosen amount is" + chosenAmount);
-       //console.log(result[chosenId].product_name);
-        console.log("OLD" + chosenProduct.stock_quantity)
-       if (chosenAmount > chosenProduct.stock_quantity) {
-         console.log("Insufficient Quantity");
-         start();
-       } else {
-       //  console.log("Yay boy");
-         var total = chosenAmount * chosenProduct.price;
-         console.log("Your total is: $" + total);
-         console.log("The old stock is: " +  chosenProduct.stock_quantity)
-         var newStock = chosenProduct.stock_quantity - chosenAmount;
-         console.log("Your new stock is:" + newStock)
 
-        connection.query(
+        var chosenAmount = answer.quantity;
+        console.log("the chosen amount is" + chosenAmount);
+        ;
+        console.log("OLD" + chosenProduct.stock_quantity)
+        if (chosenAmount > chosenProduct.stock_quantity) {
+          console.log("Insufficient Quantity");
+          start();
+        } else {
+
+          var total = chosenAmount * chosenProduct.price;
+          console.log("Your total is: $" + total);
+          console.log("The old stock is: " + chosenProduct.stock_quantity)
+          var newStock = chosenProduct.stock_quantity - chosenAmount;
+          console.log("Your new stock is:" + newStock)
+
+          connection.query(
             "UPDATE products SET ? WHERE ?",
             [
               {
-               stock_quantity: newStock
+                stock_quantity: newStock
               },
               {
                 item_id: chosenId
               }
             ],
-            function(error) {
+            function (error) {
               if (error) throw err;
               console.log("Stock quantity changed");
               start();
             }
           )
-       }
-     //   var chosenItem;
+        }
 
-        
-          // result[chosenId].item_id === answer.choice) {
-          //   chosenItem = result[i];
-          //   console.log(chosenItem);
-          //   console.log(result[i].product_name);
-          // }
-         // console.log(result[i].item_id);
-          //if (result[i].item_id === chosenId) {
-          //   chosenItem = result[i];
-          // }
-        
-        
+
       })
-    
-    })
-  }
+
+  })
+}
