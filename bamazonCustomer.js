@@ -1,42 +1,44 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
-// call once somewhere in the beginning of the app
 //https://www.npmjs.com/package/console.table
 const cTable = require('console.table');
 
 
-// create the connection information for the sql database
+// mySQL Connection to the database.
 var connection = mysql.createConnection({
   host: "localhost",
 
-  // Your port; if not 3306
+  // Port
   port: 3306,
 
-  // Your username
+  // Username
   user: "root",
 
-  // Your password
+  // Password
   password: "DNB63088",
   database: "bamazonDB"
 });
 
-// connect to the mysql server and sql database
+// Connect to the mySQL Server and database
 connection.connect(function (err) {
   if (err) throw err;
-  // run the start function after the connection is made to prompt the user
+  // After the connection is made, start the program.
   start();
 });
 
 
-// function which prompts the user for what action they should take
+// Main program function
 function start() {
 
+  //Selects all the data in the products table (i.e. everything bamazon offers)
   connection.query("SELECT * FROM products", function (err, result, fields) {
     if (err) throw err;
-    //console.log(result);
+    //utilizing the table NPM package to present a clear looking table without all the extra code.
     console.table(result);
 
+
+    //Prompts
     inquirer
       .prompt([
         {
@@ -52,33 +54,45 @@ function start() {
       ])
       .then(function (answer) {
 
-        //For loop
+        //For loop that runs through all the ids in the database and compares them to the id selected by the user.
         for (var i = 0; i < result.length; i++) {
           if (result[i].item_id === parseInt(answer.choice)) {
             chosenProduct = result[i];
-            console.log("This is the result:" + chosenProduct);
           }
         };
 
-        console.log("NAME" + chosenProduct.product_name);
-
+        //Saves the choices to a variable so that it can be used later to update database.
         var chosenId = answer.choice;
-
         var chosenAmount = answer.quantity;
-        console.log("the chosen amount is" + chosenAmount);
-        ;
-        console.log("OLD" + chosenProduct.stock_quantity)
+
+        //Alert the user to the product they chose.
+        console.log("NAME OF THE PRODUCT CHOSEN " + chosenProduct.product_name);
+        console.log("-------------");
+
+        //Alert the user to the amount they chose.
+        console.log("THE AMOUNT YOU CHOSE:  " + chosenAmount);
+        console.log("-------------");
+        
+       //Check to see if the amount they chose exceeds the amount in stock, if so, alert and restart program.
         if (chosenAmount > chosenProduct.stock_quantity) {
           console.log("Insufficient Quantity");
           start();
+
         } else {
 
+        //Calcuate the total and alert customer.
           var total = chosenAmount * chosenProduct.price;
           console.log("Your total is: $" + total);
-          console.log("The old stock is: " + chosenProduct.stock_quantity)
-          var newStock = chosenProduct.stock_quantity - chosenAmount;
-          console.log("Your new stock is:" + newStock)
+          console.log("-------------");
+         // console.log("The old stock is: " + chosenProduct.stock_quantity)
 
+
+         //Calculate the stock remaining
+          var newStock = chosenProduct.stock_quantity - chosenAmount;
+         // console.log("Your new stock is:" + newStock)
+
+
+         //Update the database and then restart program.
           connection.query(
             "UPDATE products SET ? WHERE ?",
             [
@@ -91,14 +105,11 @@ function start() {
             ],
             function (error) {
               if (error) throw err;
-              console.log("Stock quantity changed");
+             // console.log("Stock quantity changed");
               start();
             }
           )
         }
-
-
       })
-
   })
 }
