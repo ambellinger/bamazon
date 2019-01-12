@@ -125,11 +125,11 @@ The database is then updated with the new amounts
 
 ### Purchasing
 
-![purchasing-1-object](\images\bamazon_purchasing1.PNG)
+![purchasing-1-object](/images/bamazon_purchasing1.PNG)
 
 ### Purchasing multiple
 
-![purchasing-multiple-objects](\images\bamazon_purchasing2.PNG)
+![purchasing-multiple-objects](/images/bamazon_purchasing2.PNG)
 
 If the amount that is chosen by the user, exceeds that of the amount in the database, the program alerts the user and the programs restarts.
 
@@ -141,14 +141,14 @@ if (chosenAmount > chosenProduct.stock_quantity) {
 
 ### Insufficient Quantity
 
-![insufficient-quantity](\images\bamazon_insufficent_quantity.PNG)
+![insufficient-quantity](/images/bamazon_insufficent_quantity.PNG)
 
 
 The user can exit the program by selecting the letter q.
 
 ### Quitting
 
-![quiting](\images\bamazon_quiting_program.PNG)
+![quiting](/images/bamazon_quiting_program.PNG)
 
 ## Challenges and Future Improvements
 Creating and populating the database using mySQL was rather easy. However, the application became harder to develop once the user's input had to be compared with the information stored within the database. 
