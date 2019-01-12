@@ -1,5 +1,5 @@
 # Bamazon
-Bamazon is a small, command line version of amazon.  Pulling from a mySQL database, Bamazon, offers an array of products for the user to choose from. After answering two simple prompts, the user can pick and purchase a product. Afterwhich, they are presented with the total and the database is updated.
+Bamazon is a small, command line version of amazon.  Pulling from a mySQL database, Bamazon offers an array of products for the user to choose from. After answering two simple prompts, the user can pick and purchase a product. After which, they are presented with the total they owe. The database is then updated with the remaining stock.
 
 ## Technologies Used
 * Javascript
@@ -18,9 +18,9 @@ Bamazon is a small, command line version of amazon.  Pulling from a mySQL databa
 * NPM install (See Tech Used section above)
 
 ## How Does It Work?
-The database must be created first. Once the database is created, the node application and the database must be connected. 
+Once the database is created, the node application and the database must be connected. 
 
-Once the connection is established, the program will run the function to start.
+After the connection is established, the program will run the function to start.
 
 ``` 
 var connection = mysql.createConnection({
@@ -39,7 +39,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (err) throw err;
-  // run the start function after the connection is made to prompt the user
+  // run the start function after the connection is made 
   start();
 });
 
@@ -56,6 +56,10 @@ The user is then presented with the products available in the database
     //console.log(result);
     console.table(result);
 ```
+### Beginning the Program
+
+![beginning-program](\images\bamazon_beginning_program.PNG)
+
 
 Inquirer (NPM) is then used to save the user's input. 
 
@@ -119,6 +123,14 @@ The database is then updated with the new amounts
           )
 ```
 
+### Purchasing
+
+![purchasing-1-object](\images\bamazon_purchasing1.PNG)
+
+### Purchasing multiple
+
+![purchasing-multiple-objects](\images\bamazon_purchasing2.PNG)
+
 If the amount that is chosen by the user, exceeds that of the amount in the database, the program alerts the user and the programs restarts.
 
 ```
@@ -127,38 +139,21 @@ if (chosenAmount > chosenProduct.stock_quantity) {
           start();
 ```
 
-### Results - concert-this
+### Insufficient Quantity
 
-![concert-this](images/liri-concert-this-image.PNG)
+![insufficient-quantity](\images\bamazon_insufficent_quantity.PNG)
 
-### Results - movie-this
 
-![movie-this](images/liri-movie-this-image.PNG)
+The user can exit the program by selecting the letter q.
 
-### Results - movie-this w/ Placeholder
+### Quitting
 
-![movie-this-placeholder](images/liri-movie-this-image-placeholder.PNG)
-
-### Results - spotify-this-song
-
-![spotify-this-song](images/liri-spotify-this-song-image.PNG)
-
-### Results - spotify-this-song w/ Placeholder
-
-![spotify-this-song=placeholder](images/liri-spotify-this-song-image-placeholder.PNG)
-
-### Results - do-what-it-says
-For the command "do-what-it-says", text written in the random.txt file is plugged into the Spotify function.
-
-![do-what-it-says](images/liri-do-what-it-says.PNG)
-
+![quiting](\images\bamazon_quiting_program.PNG)
 
 ## Challenges and Future Improvements
-There were many challenges creating this project, particularlly working with the Spotify documentation. It was difficult understanding exactly what was needed to get it to run.
+Creating and populating the database using mySQL was rather easy. However, the application became harder to develop once the user's input had to be compared with the information stored within the database. 
 
-One challenge that remains to be solved is expanding the capabilies of the do-what-it-says function. As of right now, it is only recognizes the spotify-this-song command. I believe an if/else or switch statement will be necessary (the possible hows and what has already been tried can be found at the bottom of liri.js)
-
-Commented out code that hasn't been deleted has been saved for this particular reason.
+As of right now, there are bugs remaning in the exiting of the application. Q must be selected in the first prompt; if an item is selected but then the user tries to exit on the second prompt, an error is thrown. In addition, what functionality the app has to exit is a bit awkward and could use some fine tuning. 
 
 ## Acknowlegments 
-Although this is merely a homework assignment, I want to acknowledge the help I recieved from the TAs and from my fellow students especially Jenina who helped me understand the spotify API. :sparkles:
+I want to recognize Phil's contribution to the exiting portion of the application. 
