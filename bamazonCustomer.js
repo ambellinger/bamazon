@@ -52,7 +52,7 @@ connection.connect(function(err) {
         }
       ])
       .then(function(answer) {
-        var chosenId = answer.choice - 1;
+        var chosenId = answer.choice;
        // console.log("you chose item:" + chosenId);
        var chosenAmount = answer.quantity;
        console.log("the chosen amount is" + chosenAmount);
