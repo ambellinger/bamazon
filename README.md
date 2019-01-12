@@ -58,7 +58,7 @@ The user is then presented with the products available in the database
 ```
 ### Beginning the Program
 
-![beginning-program](\images\bamazon_beginning_program.PNG)
+![beginning-program](/images/bamazon_beginning_program.PNG)
 
 
 Inquirer (NPM) is then used to save the user's input. 
