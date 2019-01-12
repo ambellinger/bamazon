@@ -52,21 +52,31 @@ connection.connect(function(err) {
         }
       ])
       .then(function(answer) {
+        //For loop
+        for (var i = 0; i < result.length; i++) {
+          if (result[i].item_id === parseInt(answer.choice)) {
+              chosenProduct = result[i];
+              console.log("This is the result:" + chosenProduct);
+          }
+      };
+
+      console.log("BAR" + chosenProduct.product_name);
+
         var chosenId = answer.choice;
        // console.log("you chose item:" + chosenId);
        var chosenAmount = answer.quantity;
        console.log("the chosen amount is" + chosenAmount);
-       console.log(result[chosenId].product_name);
-
-       if (chosenAmount > result[chosenId].stock_quantity) {
+       //console.log(result[chosenId].product_name);
+        console.log("OLD" + chosenProduct.stock_quantity)
+       if (chosenAmount > chosenProduct.stock_quantity) {
          console.log("Insufficient Quantity");
          start();
        } else {
-         console.log("Yay boy");
-         var total = chosenAmount * result[chosenId].price;
+       //  console.log("Yay boy");
+         var total = chosenAmount * chosenProduct.price;
          console.log("Your total is: $" + total);
-         console.log("The old stock is: " +  result[chosenId].stock_quantity)
-         var newStock = result[chosenId].stock_quantity - chosenAmount;
+         console.log("The old stock is: " +  chosenProduct.stock_quantity)
+         var newStock = chosenProduct.stock_quantity - chosenAmount;
          console.log("Your new stock is:" + newStock)
 
         connection.query(
